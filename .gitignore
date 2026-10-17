@@ -1,0 +1,4 @@
+# impeccable 的评审快照和 live 会话，含本机路径
+.impeccable/
+# 用模板生成的报告含个人信息
+human3-report-*.html

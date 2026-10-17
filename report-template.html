@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUMAN 3.0 成长测评 · 【元类型名称】</title>
+  <!-- 字体只用 Google Fonts：Noto Serif SC 管标题和正文（含西文、数字），Noto Sans SC 只用于 14px 及以下的注释类文字 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ─────────────────────────────────────────────────
+       气质：安静克制、书卷气。米色纸、暖墨色，层级靠字号、字重和留白。
+       颜色只有两种有含义：
+         --accent  石青，唯一含义是"你的焦点 / 你要做的事"
+                   （核心问题、立即行动、地图上"你现在的位置"和核心卡点）。不要拿去做装饰。
+         --caution 赭石，只用于「需要提防的」，而且总是配文字标签。
+       SVG 里不能用 var()，写的是同值十六进制；改这里时同步改 SVG。 */
+    :root {
+      --paper:        #f8f4ec;  /* 米色纸 */
+      --ink:          #26201c;  /* 正文墨色      14.7:1 */
+      --ink-2:        #554e48;  /* 次要文字       7.5:1 */
+      --ink-3:        #69625b;  /* 注释、图注     5.5:1 */
+      --rule:         #d6d0c7;  /* 细分隔线（装饰性） */
+      --rule-strong:  #8d857c;  /* 结构线、图里的圈线 3.3:1 */
+      --accent:       #185c7d;  /* 石青：文字     6.7:1 */
+      --accent-fill:  #427995;  /* 石青：图形填充 4.3:1 */
+      --accent-tint:  #dbebf3;  /* 石青：极浅底，仅用于选中文字 */
+      --caution:      #79512c;  /* 赭石：提防     6.3:1 */
+      /* 地图三个层级的底色，越往里越深 */
+      --ring-1:       #d8d0c4;  /* 内圈 · 从众者 */
+      --ring-2:       #e5dfd5;  /* 中圈 · 个人主义者 */
+      --ring-3:       #f1ece4;  /* 外圈 · 通达者 */
+
+      /* Noto Serif SC 自带的西文和数字就是 Source Serif 的字形，中西文天然配套；中文引号用全角“” */
+      --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+      --font-sans:  'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+      /* 字号阶梯（正文 17px 为基准） */
+      --t-note:  0.875rem;   /* 14px 注释、图注、书眉 */
+      --t-small: 0.9375rem;  /* 15px 参考档正文 */
+      --t-body:  1.0625rem;  /* 17px 正文 */
+      --t-lead:  1.25rem;    /* 20px 提要、开篇副题 */
+      --t-h3:    1.25rem;
+      --t-h2:    1.75rem;
+
+      /* 间距：4px 基数 */
+      --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem;
+      --s-6: 1.5rem;  --s-8: 2rem;   --s-12: 3rem;   --s-16: 4rem; --s-24: 6rem;
+
+      /* 正文行宽：中文约 36 字 */
+      --measure: 36em;
+    }
+
+    html { background: var(--paper); }
+    body {
+      font-family: var(--font-serif);
+      font-size: var(--t-body);
+      font-variant-numeric: lining-nums;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.85;
+      text-autospace: normal;          /* 中西文之间自动留空 */
+      text-spacing-trim: normal;
+      hanging-punctuation: allow-end;
+      -webkit-font-smoothing: antialiased;
+      padding: var(--s-12) var(--s-4) var(--s-16);
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--rule-strong);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25em;
+    }
+    a:hover { text-decoration-color: var(--ink); }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+    ::selection { background: var(--accent-tint); color: var(--ink); }
+    b, strong { font-weight: 600; }
+
+    /* ── 三档 ────────────────────────────────────────────────────
+       一档（主角）：元类型 h1、核心问题 .problem、立即行动 .action
+       二档（正文）：地图、象限详解、30 天方案
+       三档（参考）：.ref 区块和 <details>，字号更小、颜色更淡
+       中文一律不用斜体、不加字距。 */
+
+    h1, h2, h3 { font-weight: 600; text-wrap: balance; }
+    h1 {
+      font-size: clamp(2.75rem, 4vw + 1.25rem, 4.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: var(--s-6);
+    }
+    h2 { font-size: var(--t-h2); line-height: 1.35; margin-bottom: var(--s-6); }
+    h3 { font-size: var(--t-h3); line-height: 1.45; }
+    p, li, dd { text-wrap: pretty; }
+
+    section { margin-top: var(--s-24); }
+    .prose { max-width: var(--measure); }
+    .prose + .prose { margin-top: var(--s-4); }
+    .muted { color: var(--ink-2); }
+
+    /* 注释类小字：无衬线，只在 14px 及以下用 */
+    .running, .term, figcaption, .note, .meta, .key dt, .act h2, .colophon, .ref .def {
+      font-family: var(--font-sans);
+    }
+
+    /* ── 书眉 ─────────────────────────────────────────────────── */
+    .running {
+      display: flex; justify-content: space-between; gap: var(--s-4);
+      font-size: var(--t-note); color: var(--ink-3);
+      padding-bottom: var(--s-3);
+      border-bottom: 1px solid var(--rule);
+    }
+    .running .date { font-variant-numeric: tabular-nums; }
+
+    /* ── 开篇：像书的扉页 ────────────────────────────────────── */
+    .opening { margin-top: var(--s-16); }
+    .reassure {
+      font-size: var(--t-lead);
+      color: var(--ink-2);
+      margin-bottom: var(--s-4);
+    }
+    .opening .subtitle { font-size: var(--t-lead); line-height: 1.8; max-width: var(--measure); }
+    .term { font-size: var(--t-note); color: var(--ink-3); margin-top: var(--s-4); max-width: var(--measure); }
+
+    .archetype { margin-top: var(--s-12); max-width: var(--measure); }
+    .archetype h2 { font-size: var(--t-h3); margin-bottom: var(--s-2); }
+    .archetype p { color: var(--ink-2); }
+
+    /* 提要：10 秒内看到核心问题和立即行动。标签用石青，因为两行都是"你的焦点" */
+    .key {
+      margin-top: var(--s-12);
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--rule);
+    }
+    .key div {
+      display: grid; grid-template-columns: 6rem minmax(0, 1fr);
+      gap: var(--s-4);
+      padding: var(--s-6) 0;
+    }
+    .key div + div { border-top: 1px solid var(--rule); }
+    .key dt { font-size: var(--t-note); font-weight: 500; color: var(--accent); padding-top: 0.35em; }
+    .key dd { font-size: var(--t-lead); font-weight: 600; line-height: 1.7; max-width: var(--measure); }
+    .key dd a { font-family: var(--font-sans); font-size: var(--t-note); font-weight: 400; color: var(--ink-2); margin-left: var(--s-2); white-space: nowrap; }
+
+    .toc {
+      margin-top: var(--s-6);
+      display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6);
+      font-size: var(--t-small); list-style: none;
+    }
+    .toc a { color: var(--ink-2); }
+
+    /* ── 图 ───────────────────────────────────────────────────── */
+    figure { margin-top: var(--s-8); }
+    svg { display: block; }
+    svg text { font-family: var(--font-sans); }
+    figcaption { font-size: var(--t-note); color: var(--ink-3); margin-top: var(--s-6); max-width: var(--measure); }
+
+    /* ── 四象限地图 ───────────────────────────────────────────────
+       窄屏（默认）：圆在上，缩放到屏宽；图例和四角在下面按 2×2 排，位置和圆上的象限一致。
+       宽屏（≥1000px）：圆居中，四角围在四个角上，图例在左右中间。
+       SVG 里的字号写在 CSS 里（px = viewBox 单位），按圆的显示宽度换算成约 13px。 */
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas: "chart chart" "lv st" "q1 q2" "q3 q4";
+      gap: var(--s-8) var(--s-4);
+    }
+    svg.map { grid-area: chart; justify-self: center; width: 100%; max-width: 26rem; height: auto; }
+    svg.map .lbl { font-size: 25px; }   /* 圆宽 343–416px 时显示为 12.5–15px */
+    .legend.lv { grid-area: lv; } .legend.st { grid-area: st; }
+    .corner.q1 { grid-area: q1; } .corner.q2 { grid-area: q2; }
+    .corner.q3 { grid-area: q3; } .corner.q4 { grid-area: q4; }
+
+    .legend, .corner .axis, .corner .level, .corner .status, .corner .flag {
+      font-family: var(--font-sans); font-size: var(--t-note); line-height: 1.7;
+    }
+    .legend { color: var(--ink-2); }
+    .legend-h { font-weight: 500; color: var(--ink); margin-bottom: var(--s-1); }
+    .legend ul { list-style: none; }
+    .legend li + li { margin-top: var(--s-1); }
+    .legend .you { margin-top: var(--s-2); }
+    .sw {
+      display: inline-block; vertical-align: -0.1em;
+      width: 0.85em; height: 0.85em; margin-right: var(--s-2);
+      border: 1px solid var(--rule-strong); border-radius: 50%;
+      print-color-adjust: exact; -webkit-print-color-adjust: exact;
+    }
+    .sw.ring-1 { background: var(--ring-1); }
+    .sw.ring-2 { background: var(--ring-2); }
+    .sw.ring-3 { background: var(--ring-3); }
+    .sw.you { background: var(--accent-fill); border-color: var(--accent-fill); border-radius: 2px; width: 1.15em; }
+
+    /* 四角：给核心问题所在的那一角加 class="focal"（只加一个） */
+    .corner { border-top: 1px solid var(--rule); padding-top: var(--s-3); }
+    .corner.focal { border-top: 2px solid var(--accent); padding-top: calc(var(--s-3) - 1px); }
+    .corner .qname {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--s-2);
+      font-size: 1.625rem; font-weight: 600; line-height: 1.3;
+    }
+    .corner .flag  { display: none; font-weight: 500; color: var(--accent); }
+    .corner.focal .qname { color: var(--accent); }
+    .corner.focal .flag  { display: inline; }
+    .corner .axis   { color: var(--ink-3); }
+    .corner .arch   { font-size: 1.125rem; font-weight: 600; line-height: 1.5; margin-top: var(--s-3); }
+    .corner .level  { color: var(--ink-2); }
+    .corner .status { margin-top: var(--s-2); text-wrap: balance; }
+
+    @media (min-width: 62.5rem) {
+      .map-grid {
+        grid-template-columns: 14.5rem minmax(0, 1fr) 14.5rem;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas: "q1 . q2" "lv . st" "q3 . q4";
+        gap: var(--s-6) 0;
+      }
+      /* 圆横跨三列居中，四角落在圆外的四个空角上 */
+      svg.map { grid-area: 1 / 1 / 4 / 4; align-self: center; width: 36rem; max-width: none; }
+      svg.map .lbl { font-size: 15.5px; }  /* 圆宽 576px 时显示为 13px */
+      .legend { align-self: center; }
+      .legend.st { justify-self: end; max-width: 12rem; }  /* 让开右侧「外在」轴标 */
+      .corner, .corner.focal { border-top: 0; padding-top: 0; }
+      .corner .qname { font-size: 2rem; }
+      .corner.q2, .corner.q4 { text-align: end; }
+      .corner.q2 .qname, .corner.q4 .qname { flex-direction: row-reverse; }
+      .corner.q3, .corner.q4 { align-self: end; }
+    }
+
+    /* ── 跨象限链路：起点 → 连线（卡住虚线 / 带动实线）→ 终点 ── */
+    .chain { max-width: 44rem; margin-bottom: var(--s-8); }
+    .link {
+      display: grid; grid-template-columns: minmax(0, 1fr) 7rem minmax(0, 1fr);
+      align-items: center;
+    }
+    .link + .link { margin-top: var(--s-6); }
+    .node {
+      border: 1px solid var(--ink); border-radius: 4px;
+      padding: var(--s-2) var(--s-4);
+    }
+    .link.stuck .node:first-child { background: var(--ring-2); border-color: var(--ink-2); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .node b { display: block; font-size: var(--t-small); font-weight: 600; line-height: 1.6; }
+    .node span { display: block; font-family: var(--font-sans); font-size: var(--t-note); color: var(--ink-2); line-height: 1.6; }
+    /* 连线：线是 ::before，箭头是 ::after 画的折角（和 details 的折角同一种笔画） */
+    .edge {
+      position: relative; align-self: stretch;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-sans); font-size: var(--t-note); font-weight: 500;
+    }
+    .edge::before {
+      content: ""; position: absolute; left: 0; right: 4px; top: 50%;
+      border-top: 1.5px solid var(--ink);
+    }
+    .edge::after {
+      content: ""; position: absolute; right: 2px; top: 50%;
+      width: 0.5rem; height: 0.5rem; margin-top: -0.25rem;
+      border-right: 1.5px solid var(--ink); border-top: 1.5px solid var(--ink);
+      transform: rotate(45deg);
+    }
+    .stuck .edge { color: var(--ink-2); }
+    .stuck .edge::before { border-top-style: dashed; border-color: var(--ink-2); }
+    .stuck .edge::after { border-color: var(--ink-2); }
+    .edge span { position: relative; background: var(--paper); padding: 0 var(--s-2); margin-top: -1.75rem; }
+    @media (max-width: 35rem) {
+      .link { grid-template-columns: minmax(0, 1fr); }
+      .edge { min-height: 2.75rem; justify-content: flex-start; padding-left: calc(var(--s-4) + 0.5rem); }
+      .edge::before { left: var(--s-6); right: auto; top: 0; bottom: 4px; border-top: 0; border-left: 1.5px solid var(--ink); }
+      .stuck .edge::before { border-left-style: dashed; border-left-color: var(--ink-2); }
+      .edge::after { left: calc(var(--s-6) - 0.25rem + 0.75px); right: auto; top: auto; bottom: 2px; margin-top: 0; transform: rotate(135deg); }
+      .edge span { margin-top: 0; padding-left: var(--s-3); background: none; }
+    }
+
+    /* ── 象限详解 ─────────────────────────────────────────────── */
+    .quadrants {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-12) var(--s-12);
+      margin-top: var(--s-8);
+    }
+    .quadrant { border-top: 1px solid var(--ink); padding-top: var(--s-4); }
+    .quadrant .meta { font-size: var(--t-note); color: var(--ink-3); margin: var(--s-1) 0 var(--s-3); }
+    .quadrant .lead { margin-bottom: var(--s-3); }
+    .quadrant dl { font-size: var(--t-small); }
+    .quadrant dt { font-weight: 600; margin-top: var(--s-3); }
+    .quadrant dd { color: var(--ink-2); }
+
+    /* ── 核心问题（一档）：石青短线 + 大字 ───────────────────── */
+    #core h2 { font-size: var(--t-h3); color: var(--accent); margin-bottom: var(--s-4); }
+    .problem {
+      font-size: clamp(1.75rem, 1.6vw + 1.1rem, 2.375rem);
+      font-weight: 700;
+      line-height: 1.5;
+      max-width: 20em;
+      margin-bottom: var(--s-8);
+    }
+    .note { font-size: var(--t-note); color: var(--ink-3); margin-top: var(--s-4); max-width: var(--measure); }
+
+    /* ── 参考档：折叠区 ───────────────────────────────────────── */
+    details { margin-top: var(--s-6); border-top: 1px solid var(--rule); }
+    details:last-of-type { border-bottom: 1px solid var(--rule); }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: var(--s-3) 0;
+      font-weight: 600;
+      font-size: var(--t-small);
+      color: var(--ink-2);
+    }
+    summary::-webkit-details-marker { display: none; }
+    /* 展开标记：画出来的小折角，不用字符 */
+    summary::before {
+      content: "";
+      display: inline-block;
+      width: 0.42em; height: 0.42em;
+      margin: 0 0.75em 0.12em 0.1em;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 160ms ease-out;
+    }
+    details[open] > summary::before { transform: rotate(45deg); }
+    summary:hover, details[open] > summary { color: var(--ink); }
+    details > :not(summary) { margin-bottom: var(--s-4); }
+    details + details { margin-top: 0; }
+    @media (prefers-reduced-motion: reduce) { summary::before { transition: none; } }
+    /* 打印时展开所有折叠内容 */
+    @media print {
+      html, body { background: #fff; }
+      details::details-content { content-visibility: visible; display: block; }
+      .toc, .key dd a { display: none; }
+      /* 不整段避免分页（长区块会被整个推到下一页，留下空白页），只保护小单元 */
+      @page { margin: 16mm 18mm; }
+      body { padding: 0; }
+      .opening { margin-top: var(--s-8); }
+      section, .act { margin-top: var(--s-12); }
+      h2, h3, summary, .key dt { break-after: avoid; }
+      figure, .key, .quadrant, .corner, .link, .act, .ref dd, li { break-inside: avoid; }
+    }
+
+    .plan-now + details { margin-top: var(--s-8); }
+
+    .ref { font-size: var(--t-small); }
+    .ref dt { font-weight: 600; margin-top: var(--s-6); }
+    .ref dt:first-child { margin-top: 0; }
+    .ref dd { color: var(--ink-2); max-width: var(--measure); }
+    .ref dd + dd { margin-top: var(--s-2); }
+    .ref .def { font-weight: 400; color: var(--ink-3); font-size: var(--t-note); margin-left: var(--s-2); }
+
+    /* ── 需要提防的：赭石，只给条目标题；靠文字说明是警示，不靠颜色 ── */
+    #watch h2 { color: var(--caution); }
+    #watch .ref { border-top: 1px solid var(--caution); padding-top: var(--s-6); }
+    #watch .ref dt { color: var(--caution); }
+
+    ul.plain, ol.plain { padding-left: 1.25em; max-width: var(--measure); }
+    ul.plain li, ol.plain li { margin-top: var(--s-2); padding-left: 0.25em; }
+    ul.plain li::marker, ol.plain li::marker { color: var(--ink-3); }
+
+    /* ── 方案 ─────────────────────────────────────────────────── */
+    .plan-now h3 { margin-bottom: var(--s-2); }
+    .plan-now .lead { max-width: var(--measure); color: var(--ink-2); }
+
+    /* ── 真话 ─────────────────────────────────────────────────── */
+    .truth p { font-size: 1.125rem; line-height: 1.95; max-width: var(--measure); }
+    .truth p + p { margin-top: var(--s-4); }
+
+    /* ── 立即行动（一档，全页最后、最大）──────────────────────── */
+    .act {
+      margin-top: var(--s-24);
+      padding: var(--s-12) 0 var(--s-16);
+      border-top: 2px solid var(--accent);
+      border-bottom: 1px solid var(--rule);
+    }
+    .act h2 { font-size: var(--t-note); font-weight: 500; color: var(--accent); margin-bottom: var(--s-6); }
+    .action {
+      font-size: clamp(1.75rem, 1.8vw + 1.1rem, 2.5rem);
+      font-weight: 600;
+      line-height: 1.6;
+      max-width: 20em;
+    }
+
+    /* ── 版权页 ───────────────────────────────────────────────── */
+    .colophon { margin-top: var(--s-8); font-size: var(--t-note); color: var(--ink-3); }
+    .colophon details { margin-top: var(--s-2); border: 0; }
+    .colophon summary { padding: var(--s-1) 0; font-weight: 400; font-size: var(--t-note); color: var(--ink-3); }
+    .colophon details p { max-width: var(--measure); margin-top: var(--s-2); line-height: 1.8; }
+
+    @media (max-width: 720px) {
+      .quadrants { grid-template-columns: minmax(0, 1fr); }
+      .key div { grid-template-columns: minmax(0, 1fr); gap: var(--s-1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- 填写规则：
+       · 替换所有【】占位符，写完用 grep -c '【' 检查，结果为 0。
+       · 引号一律用全角“”，不用 "" 或「」（「」只用于固定文字里的名称，如「核心卡点」、相近元类型的名字）。
+       · 可选条目没内容就整条删掉，不要留空。
+       · details 折叠区保持折叠，不加 open。 -->
+  <div class="container">
+
+    <header class="running">
+      <span>HUMAN 3.0 成长测评</span><span class="date">【YYYY-MM-DD】</span>
+    </header>
+
+    <!-- ══ 开篇：一句肯定 → 元类型 → 生活方式原型 → 提要 ══════════════ -->
+    <section class="opening" aria-labelledby="metatype">
+      <!-- 取自「真话」第一段里的那句肯定，原句照抄，一句 -->
+      <p class="reassure">【一句肯定，取自真话第一段，原样截取】</p>
+      <h1 id="metatype">【元类型名称】</h1>
+      <p class="subtitle">【2–3 句：四个象限的发展情况、整体格局、独特之处】</p>
+      <p class="term">这是你的元类型：由你四个象限的组合得出的综合人设。</p>
+
+      <div class="archetype">
+        <h2>生活方式原型：【生活方式原型名】</h2>
+        <p>【2–4 句：四个象限现在怎么互动，什么独大，什么被忽视，要解决的首要生活方式问题】</p>
+        <details>
+          <summary>相近的元类型</summary>
+          <!-- 三条固定句式。第三条填“做到什么”的动宾短语，不要再以“解决”开头 -->
+          <ul class="plain muted">
+            <li>类似「【相近元类型 1】」：【它的简短描述】，但你多了【对方比它多出的东西】。</li>
+            <li>与「【相近元类型 2】」有重叠：【它的简短描述】，但少一些【对方比它少的东西】。</li>
+            <li>【做到什么，动宾短语】之后，可能进化为「【下一个元类型】」。</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- 提要：两行都从下文原样截取，不新写。立即行动取前一两句 -->
+      <dl class="key" aria-label="提要">
+        <div><dt>核心问题</dt><dd>【核心问题，从下文 .problem 原样复制】<a href="#core">为什么</a></dd></div>
+        <div><dt>立即行动</dt><dd>【立即行动的前一两句，从下文 .action 原样截取】<a href="#action">完整步骤</a></dd></div>
+      </dl>
+
+      <nav aria-label="目录">
+        <ul class="toc">
+          <li><a href="#map">四象限地图</a></li>
+          <li><a href="#quadrants">象限详解</a></li>
+          <li><a href="#core">核心问题</a></li>
+          <li><a href="#watch">需要提防的</a></li>
+          <li><a href="#plan">转变方案</a></li>
+          <li><a href="#truth">真话</a></li>
+          <li><a href="#action">立即行动</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- ══ 四象限地图（二档）══════════════════════════════════════ -->
+    <section id="map" aria-labelledby="map-h">
+      <h2 id="map-h">四象限地图</h2>
+      <!-- 术语说明为固定文字；最后一句填核心卡点所在象限 -->
+      <p class="prose muted">每个象限都有三个<b>层级</b>，由内向外：从众者（照着别人给的剧本活，1.0）、个人主义者（我的路我做主，2.0）、通达者（能融合多种视角，自己定规则，3.0）。每个层级里又分三个<b>阶段</b>：失调期（旧方式不灵了，知道该变）、探索期（开始试错）、发现期（摸到门道）。</p>
+      <p class="prose muted">标着「核心卡点」的象限，是下面那个核心问题最先发作的地方：【核心卡点所在象限：心智 / 身体 / 精神 / 事业】。</p>
+      <figure class="map-fig">
+        <!-- 地图 = 一张只画圆的 SVG + 四角和图例的 HTML。
+             宽屏（≥1000px）时四角围在圆的四个角上；窄屏时圆在上，图例和四角按 2×2 排在下面，
+             2×2 的位置和圆上的象限位置一致（左上心智、右上身体、左下精神、右下事业）。 -->
+        <div class="map-grid">
+          <svg class="map" viewBox="136 76 688 648" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="human3-map-title human3-map-desc">
+            <title id="human3-map-title">HUMAN 3.0 四象限地图</title>
+            <!-- desc 一句话：哪些象限到了哪一圈，核心卡点在哪 -->
+            <desc id="human3-map-desc">【一句话：哪些象限到了哪一圈，核心卡点在哪个象限】</desc>
+            <defs>
+              <marker id="m-axis" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto-start-reverse">
+                <polygon points="0 0, 8 3, 0 6" fill="#26201c"/>
+              </marker>
+              <!-- 扇区按层级裁切：lv1 内圈，lv2 中圈，lv3 外圈 -->
+              <clipPath id="lv1"><circle cx="480" cy="400" r="84"/></clipPath>
+              <clipPath id="lv2"><circle cx="480" cy="400" r="168"/></clipPath>
+              <clipPath id="lv3"><circle cx="480" cy="400" r="252"/></clipPath>
+            </defs>
+
+            <!-- 层级底色：越往里越深。--ring-3 / --ring-2 / --ring-1 -->
+            <circle cx="480" cy="400" r="252" fill="#f1ece4"/>
+            <circle cx="480" cy="400" r="168" fill="#e5dfd5"/>
+            <circle cx="480" cy="400" r="84" fill="#d8d0c4"/>
+
+            <!-- 特质分隔线 -->
+            <g stroke="#8d857c" stroke-width="1">
+              <line x1="480" y1="400" x2="262" y2="274"/><line x1="480" y1="400" x2="354" y2="182"/>
+              <line x1="480" y1="400" x2="606" y2="182"/><line x1="480" y1="400" x2="698" y2="274"/>
+              <line x1="480" y1="400" x2="698" y2="526"/><line x1="480" y1="400" x2="606" y2="618"/>
+              <line x1="480" y1="400" x2="354" y2="618"/><line x1="480" y1="400" x2="262" y2="526"/>
+            </g>
+
+            <!-- 十二格：每个象限顺时针依次是知识、经验、技能。
+                 只改 clip-path：该特质在 L1 用 lv1，L2 用 lv2，L3 用 lv3。
+                 下面默认全部是 lv2，只是占位；按综合打分逐格改，不要动 d。 -->
+            <!-- 填色 = 石青（你的位置）；纸色描边把相邻格分开 -->
+            <g class="slices" fill="#427995" stroke="#f8f4ec" stroke-width="1.5" stroke-linejoin="round">
+              <!-- 心智：知识、经验、技能 -->
+              <path clip-path="url(#lv2)" d="M480 400 L228 400 A252 252 0 0 1 262 274 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L262 274 A252 252 0 0 1 354 182 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L354 182 A252 252 0 0 1 480 148 Z"/>
+              <!-- 身体：知识、经验、技能 -->
+              <path clip-path="url(#lv2)" d="M480 400 L480 148 A252 252 0 0 1 606 182 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L606 182 A252 252 0 0 1 698 274 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L698 274 A252 252 0 0 1 732 400 Z"/>
+              <!-- 事业：知识、经验、技能 -->
+              <path clip-path="url(#lv2)" d="M480 400 L732 400 A252 252 0 0 1 698 526 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L698 526 A252 252 0 0 1 606 618 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L606 618 A252 252 0 0 1 480 652 Z"/>
+              <!-- 精神：知识、经验、技能 -->
+              <path clip-path="url(#lv2)" d="M480 400 L480 652 A252 252 0 0 1 354 618 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L354 618 A252 252 0 0 1 262 526 Z"/>
+              <path clip-path="url(#lv2)" d="M480 400 L262 526 A252 252 0 0 1 228 400 Z"/>
+            </g>
+
+            <!-- 每个层级内的三个阶段（虚线）和层级边界（实线），画在格子上面 -->
+            <g fill="none" stroke="#8d857c" stroke-width="0.8" stroke-dasharray="2,3">
+              <circle cx="480" cy="400" r="28"/><circle cx="480" cy="400" r="56"/>
+              <circle cx="480" cy="400" r="112"/><circle cx="480" cy="400" r="140"/>
+              <circle cx="480" cy="400" r="196"/><circle cx="480" cy="400" r="224"/>
+            </g>
+            <g fill="none" stroke="#8d857c" stroke-width="1">
+              <circle cx="480" cy="400" r="252"/><circle cx="480" cy="400" r="168"/><circle cx="480" cy="400" r="84"/>
+            </g>
+            <!-- 坐标轴 -->
+            <line x1="480" y1="124" x2="480" y2="676" stroke="#26201c" stroke-width="1.2" marker-start="url(#m-axis)" marker-end="url(#m-axis)"/>
+            <line x1="204" y1="400" x2="756" y2="400" stroke="#26201c" stroke-width="1.2" marker-start="url(#m-axis)" marker-end="url(#m-axis)"/>
+            <circle cx="480" cy="400" r="10" fill="#f8f4ec" stroke="#26201c" stroke-width="1.5"/>
+
+            <!-- 图里的字号由 CSS 按屏宽设定（svg.map .lbl），保证显示出来约 13px -->
+            <g class="lbl" font-family="'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">
+              <g font-weight="500" fill="#26201c">
+                <text x="480" y="106" text-anchor="middle">个人</text>
+                <text x="480" y="712" text-anchor="middle">集体</text>
+                <text x="192" y="400" text-anchor="end" dominant-baseline="middle">内在</text>
+                <text x="768" y="400" text-anchor="start" dominant-baseline="middle">外在</text>
+              </g>
+              <!-- 特质标签：固定文字 -->
+              <g fill="#69625b" text-anchor="middle" dominant-baseline="middle">
+                <text x="200" y="325">知识</text><text x="275" y="195">经验</text><text x="405" y="120">技能</text>
+                <text x="555" y="120">知识</text><text x="685" y="195">经验</text><text x="760" y="325">技能</text>
+                <text x="760" y="475">知识</text><text x="685" y="605">经验</text><text x="555" y="680">技能</text>
+                <text x="405" y="680">知识</text><text x="275" y="605">经验</text><text x="200" y="475">技能</text>
+              </g>
+            </g>
+          </svg>
+
+          <!-- 图例：固定文字 -->
+          <div class="legend lv">
+            <p class="legend-h">层级</p>
+            <ul>
+              <li><i class="sw ring-1" aria-hidden="true"></i>内圈 · 从众者</li>
+              <li><i class="sw ring-2" aria-hidden="true"></i>中圈 · 个人主义者</li>
+              <li><i class="sw ring-3" aria-hidden="true"></i>外圈 · 通达者</li>
+            </ul>
+          </div>
+          <div class="legend st">
+            <p class="legend-h">阶段</p>
+            <p>每圈虚线分三层<br>由内向外：失调、探索、发现</p>
+            <p class="you"><i class="sw you" aria-hidden="true"></i>你现在的位置</p>
+          </div>
+
+          <!-- 四角：象限名和坐标说明是固定文字；填原型、层级 · 阶段、一句话现状（≤36 字，可用分号连两句）。
+               核心问题所在的那一角加 class="focal"，只加一个（「核心卡点」标签随之显示）。
+               下面默认 focal 在 q2（身体），只是占位：把它移到核心卡点那一角，其余三角不带 focal。
+               四个 div 的顺序和 q1–q4 不要动：q1 心智、q2 身体、q3 精神、q4 事业。 -->
+          <div class="corner q1">
+            <p class="qname">心智<span class="flag">核心卡点</span></p>
+            <p class="axis">个人内在 · 怎么想、怎么看世界</p>
+            <p class="arch">【心智原型名】</p>
+            <p class="level">【层级】 · 【阶段】</p>
+            <p class="status">【一句话现状，≤36 字，可用分号连两句】</p>
+          </div>
+          <div class="corner q2 focal">
+            <p class="qname">身体<span class="flag">核心卡点</span></p>
+            <p class="axis">个人外在 · 健康、体能、习惯</p>
+            <p class="arch">【身体原型名】</p>
+            <p class="level">【层级】 · 【阶段】</p>
+            <p class="status">【一句话现状，≤36 字，可用分号连两句】</p>
+          </div>
+          <div class="corner q3">
+            <p class="qname">精神<span class="flag">核心卡点</span></p>
+            <p class="axis">集体内在 · 关系、归属、意义</p>
+            <p class="arch">【精神原型名】</p>
+            <p class="level">【层级】 · 【阶段】</p>
+            <p class="status">【一句话现状，≤36 字，可用分号连两句】</p>
+          </div>
+          <div class="corner q4">
+            <p class="qname">事业<span class="flag">核心卡点</span></p>
+            <p class="axis">集体外在 · 工作、价值、贡献</p>
+            <p class="arch">【事业原型名】</p>
+            <p class="level">【层级】 · 【阶段】</p>
+            <p class="status">【一句话现状，≤36 字，可用分号连两句】</p>
+          </div>
+        </div>
+        <figcaption>十二格 = 四个象限 × 知识、经验、技能。每格填到该特质所在的层级。</figcaption>
+      </figure>
+    </section>
+
+    <!-- ══ 象限详解（二档）══════════════════════════════════════ -->
+    <section id="quadrants" aria-labelledby="quadrants-h">
+      <h2 id="quadrants-h">象限详解</h2>
+      <!-- 四块结构相同：优势、差距、对生活的影响。伪成长警报移到「需要提防的」。
+           .meta 填“层级 · 阶段”；核心卡点所在象限在末尾再加“ · 核心卡点”，和地图 focal 那一角一致。
+           .lead 填“意识层级：低 / 中 / 高。”再加一句具体描述 -->
+      <div class="quadrants">
+        <article class="quadrant">
+          <h3>心智 · 【心智原型名】</h3>
+          <p class="meta">【层级】 · 【阶段】</p>
+          <p class="lead">意识层级：【低 / 中 / 高】。【一句具体描述】</p>
+          <dl>
+            <dt>优势</dt><dd>【具体观察】</dd>
+            <dt>差距</dt><dd>【直接但尊重的真话】</dd>
+            <dt>对生活的影响</dt><dd>【它如何影响日常，一句】</dd>
+          </dl>
+        </article>
+        <article class="quadrant">
+          <h3>身体 · 【身体原型名】</h3>
+          <p class="meta">【层级】 · 【阶段】</p>
+          <p class="lead">意识层级：【低 / 中 / 高】。【一句具体描述】</p>
+          <dl>
+            <dt>优势</dt><dd>【具体观察】</dd>
+            <dt>差距</dt><dd>【直接但尊重的真话】</dd>
+            <dt>对生活的影响</dt><dd>【它如何影响日常，一句】</dd>
+          </dl>
+        </article>
+        <article class="quadrant">
+          <h3>精神 · 【精神原型名】</h3>
+          <p class="meta">【层级】 · 【阶段】</p>
+          <p class="lead">意识层级：【低 / 中 / 高】。【一句具体描述】</p>
+          <dl>
+            <dt>优势</dt><dd>【具体观察】</dd>
+            <dt>差距</dt><dd>【直接但尊重的真话】</dd>
+            <dt>对生活的影响</dt><dd>【它如何影响日常，一句】</dd>
+          </dl>
+        </article>
+        <article class="quadrant">
+          <h3>事业 · 【事业原型名】</h3>
+          <p class="meta">【层级】 · 【阶段】</p>
+          <p class="lead">意识层级：【低 / 中 / 高】。【一句具体描述】</p>
+          <dl>
+            <dt>优势</dt><dd>【具体观察】</dd>
+            <dt>差距</dt><dd>【直接但尊重的真话】</dd>
+            <dt>对生活的影响</dt><dd>【它如何影响日常，一句】</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══ 核心问题（一档）══════════════════════════════════════ -->
+    <section id="core" aria-labelledby="core-h">
+      <h2 id="core-h">你要解决的核心问题</h2>
+      <!-- 一句话，提要里的核心问题原样复制这一句 -->
+      <p class="problem">【那一个问题，一句】</p>
+      <p class="prose">【为什么它是根源而不是症状，解决后会怎样带动四个象限，2–3 句】</p>
+      <!-- 与地图上 class="focal" 的那一角一致 -->
+      <p class="note">它最先在【象限名】象限发作，所以地图上的「核心卡点」标在【象限名】。</p>
+
+      <!-- 跨象限细节（三档）：主要卡点、带动机会、隐藏规律各一句。连锁预警移到「需要提防的」 -->
+      <details>
+        <summary>跨象限细节：卡住、带动和一个隐藏规律</summary>
+        <!-- 跨象限链路：HTML，不用 SVG（窄屏时自动竖排，字不会缩小）。
+             固定两行：第一行 class="link stuck"（卡住，虚线），第二行 class="link drive"（带动，实线）。
+             节点名称 ≤12 字，说明 ≤15 字。卡住那一行的起点节点自动加深底色。 -->
+        <figure class="chain" aria-label="卡点与带动">
+          <div class="link stuck">
+            <p class="node"><b>【卡点象限 · 原型，≤12 字】</b><span>【它弱在哪，≤15 字】</span></p>
+            <p class="edge"><span>卡住</span></p>
+            <p class="node"><b>【被卡住的象限，≤12 字】</b><span>【被卡住的表现，≤15 字】</span></p>
+          </div>
+          <div class="link drive">
+            <p class="node"><b>【带动象限 · 原型，≤12 字】</b><span>【它强在哪，≤15 字】</span></p>
+            <p class="edge"><span>带动</span></p>
+            <p class="node"><b>【被带动的象限，≤12 字】</b><span>【会出现的变化，≤15 字】</span></p>
+          </div>
+        </figure>
+        <dl class="ref">
+          <dt>主要卡点</dt>
+          <dd>【哪个象限在限制哪个象限，原因是什么，1–2 句】</dd>
+          <dt>带动机会</dt>
+          <dd>【发展哪个象限会带动什么变化，1–2 句】</dd>
+          <dt>隐藏规律</dt>
+          <dd>【对方没意识到的关联，1–3 句】</dd>
+        </dl>
+      </details>
+    </section>
+
+    <!-- ══ 需要提防的（三档）：合并伪成长警报、连锁预警、关键警告、卡bug评估，去重 ══ -->
+    <section id="watch" aria-labelledby="watch-h">
+      <h2 id="watch-h">需要提防的</h2>
+      <!-- 固定五项，每项一到两句；伪成长按象限各一句，没有的象限整条 dd 删掉 -->
+      <dl class="ref">
+        <dt>伪成长 <span class="def">看着在成长，其实原地踏步</span></dt>
+        <dd><b>心智：</b>【具体行为，以及它在帮你回避什么】</dd>
+        <dd><b>身体：</b>【具体行为，以及它在帮你回避什么】</dd>
+        <dd><b>精神：</b>【具体行为，以及它在帮你回避什么】</dd>
+        <dd><b>事业：</b>【具体行为，以及它在帮你回避什么】</dd>
+
+        <dt>连锁风险</dt>
+        <dd>【忽视哪个问题，会怎样一步步连锁到其他象限，1–2 句】</dd>
+
+        <dt>倒退触发点 <span class="def">压力过载时退回旧模式</span></dt>
+        <dd>【什么情境会让哪个象限崩掉，一句】</dd>
+
+        <dt>生活方式陷阱</dt>
+        <dd>硬撑平衡，而不是解决根本问题。</dd>
+
+        <!-- 卡bug只保留一档，删掉另外两档（dt 和它的两个 dd 一起删）。按总体层级选：
+             L1.0–2.0 → 不建议；L2.0–2.5 → 极度谨慎；L2.5 及以上 → 可以有意识地评估风险。
+             每档第一个 dd 是固定文字，第二个 dd 填针对此人的内容。 -->
+        <dt>卡bug：以你目前的层级，不建议 <span class="def">像游戏里钻漏洞跳关，强行加速成长的高风险捷径</span></dt>
+        <dd>你还没有足够的根基消化加速带来的冲击。未来 6–12 个月专注自然成长，先积累知识、经验和技能；AI 只当工具，不当拐杖。</dd>
+        <dd>【针对此人情况的具体提醒：他在考虑或已在用的加速手段，风险在哪，换成什么更稳的做法，1–2 句】</dd>
+
+        <dt>卡bug：极度谨慎 <span class="def">像游戏里钻漏洞跳关，强行加速成长的高风险捷径</span></dt>
+        <dd>你有一些根基，但风险仍然很高。要试就从风险最低的开始，先想好退出办法；AI 只当工具，不当拐杖。</dd>
+        <dd>【针对此人情况的具体准备：从哪种风险最低的开始，尝试前必读或必学什么，如何防止依赖，1–2 句】</dd>
+
+        <dt>卡bug：可以有意识地评估风险 <span class="def">像游戏里钻漏洞跳关，强行加速成长的高风险捷径</span></dt>
+        <dd>你的根基足以做出知情决定。再完美的准备也消除不了后果。</dd>
+        <dd>【最契合此人发展的卡bug类型，怎样最大化收益、最小化伤害，要为加速牺牲什么，1–2 句】</dd>
+      </dl>
+    </section>
+
+    <!-- ══ 转变方案：30 天（二档），90 天和 6–12 个月（三档，折叠）══════ -->
+    <section id="plan" aria-labelledby="plan-h">
+      <h2 id="plan-h">生活方式转变方案</h2>
+      <div class="plan-now">
+        <h3>未来 30 天 · 识别问题</h3>
+        <p class="lead">【核心问题落在哪个象限、具体是什么，怎么开始，1–2 句】</p>
+        <!-- 最多显示 3 条（三个每日练习），其余放进下面的 details。每条都要一周内能开始 -->
+        <ol class="plain">
+          <li>【每日练习 1：15–30 分钟，直击核心问题】</li>
+          <li>【每日练习 2：来自另一个象限的支持练习】</li>
+          <li>【每日练习 3：连接象限的整合练习】</li>
+        </ol>
+        <details>
+          <summary>每周挑战、资源和成功标准</summary>
+          <ul class="plain muted">
+            <li><b>每周挑战：</b>【在问题领域突破舒适区的一件事】</li>
+            <li><b>资源：</b>【具体的书、课程、工具或该去看的专科】</li>
+            <li><b>成功标准：</b>【30 天后看得见的改善】</li>
+          </ul>
+        </details>
+      </div>
+
+      <details>
+        <summary>未来 90 天 · 落实方案</summary>
+        <p class="prose muted">转变：从【当前原型倾向】到【更好的整合】。</p>
+        <ul class="plain muted">
+          <li><b>上头期进入策略：</b>【针对问题象限的方法】。上头期是着魔般停不下来的爆发成长期。</li>
+          <li><b>交叉训练：</b>【强象限如何支持弱象限】</li>
+          <li><b>问题演化：</b>【当前问题】改善后，预计浮现【下一个问题】。</li>
+          <li><b>技能建设：</b>培养【具体技能】，防止倒退。</li>
+          <li><b>支持系统：</b>【需要哪种督促和陪伴，由谁来】</li>
+          <li><b>里程碑：</b>【看得见的生活方式变化】</li>
+        </ul>
+      </details>
+      <details>
+        <summary>未来 6–12 个月 · 整合</summary>
+        <p class="prose muted">目标生活方式：走向【下一个生活方式原型】。</p>
+        <ul class="plain muted">
+          <li><b>主要转变：</b>【象限】从【当前状态】到【下一层级】。</li>
+          <li><b>整合目标：</b>让【象限】自然支持【象限】。</li>
+          <li><b>新的承载力：</b>准备好应对【更高层级的问题】。</li>
+          <li><b>工作即游戏：</b>【事业如何变成乐趣】</li>
+          <li><b>健康成默认：</b>【身体习惯如何自动化】</li>
+          <li><b>意义充足：</b>【精神如何融入日常】</li>
+          <li><b>大脑做盟友：</b>【心智如何成为助力】</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- ══ 真话 ══════════════════════════════════════════════════ -->
+    <section id="truth" class="truth" aria-labelledby="truth-h">
+      <h2 id="truth-h">关于你现状的真话</h2>
+      <!-- 第一段的开头那句肯定已提到页首，这里从下一句开始 -->
+      <p>【第一段：当前状态和潜力，从那句肯定之后写起】</p>
+      <p>【第二段：真正拖住你的是什么；对方提到过对卡bug感兴趣的话，在这里给出具体建议】</p>
+    </section>
+
+    <!-- ══ 立即行动（一档，全页最后、最大）══════════════════════════ -->
+    <section id="action" class="act" aria-labelledby="action-h">
+      <h2 id="action-h">你的立即行动</h2>
+      <!-- 24 小时内能完成；前一两句要能单独成立，提要里原样截取 -->
+      <p class="action">【24 小时内能完成、开始解决核心问题的极具体行动，2–3 句】</p>
+    </section>
+
+    <footer class="colophon">
+      <p>HUMAN 3.0 成长测评 · 【YYYY-MM-DD】</p>
+      <details>
+        <summary>记住</summary>
+        <p>你不是靠硬撑去平衡所有象限，而是系统地解决问题，每解决一个就露出下一个。这样才能活出工作即游戏、健康是默认、意义充足、大脑站在你这边的生活。卡bug能加速这个过程，但需要根基：就像没练过几年就打类固醇，只会毁掉你，而不是成就你。目标不是完美，而是有意识地驾驭自己的进化。</p>
+        <p>成为六边形战士，不是靠在每个领域死磕，而是靠解决那些能打通各领域的问题。只有在自然潜力拉满、并能有意识地承担后果时，才去卡bug。</p>
+      </details>
+    </footer>
+
+  </div>
+</body>
+</html>
